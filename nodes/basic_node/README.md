@@ -6,7 +6,7 @@ Create the directory in which all the data related to the node will be created/s
 
 ```bash
 git clone -b dev https://github.com/juangas/Proyecto_ETH_CC_Grupo_1.git
-cd Proyecto_ETH_CC_Grupo_1
+cd Proyecto_ETH_CC_Grupo_1/nodes/basic_node
 mkdir node_1
 ```
 
