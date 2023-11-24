@@ -103,7 +103,7 @@ docker run --rm -it \
   -v $PWD/node_1:/root/.ethereum \
   ethereum/client-go \
   --http \
-  --http.addr localhost \
+  --http.addr 0.0.0.0 \
   --http.port 8546 \
   --http.api web3,eth,net,debug,personal,txpool \
   --datadir=/root/.ethereum \
