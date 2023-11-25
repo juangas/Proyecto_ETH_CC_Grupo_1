@@ -4,10 +4,69 @@
 		<meta charset="UTF-8" />
 		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Vite + React</title>
+		<title>Ethereum Team Project</title>
+		<style>
+			body {
+				margin: 0;
+				padding: 0;
+				min-height: 100vh;
+				display: flex;
+				flex-direction: column;
+			}
+			header {
+				color: #333;
+				padding: 5px;
+				text-align: center;
+			}
+			header img {
+				width: 250px; /* Ajusta el tamaño del logo según tus necesidades */
+				height: auto;
+				align: center;
+	
+			}
+			header h1 {
+				display: center;
+				margin: 0;
+			}
+			footer {
+				margin-top: auto; /* Empuja el pie de página hacia la parte inferior */
+				background-color: #333;
+				color: white;
+				padding: 50px;
+				text-align: center;
+				width: 100%;
+			}
+			footer a {
+				color: white;
+				text-decoration: none;
+				margin: 0 10px;
+			}
+			footer img {
+				width: 30px;
+				height: auto;
+				align: center;
+			}
+		</style>
 	</head>
 	<body>
+
+		<header>
+			<img src="\src\assets\logo.png" alt="Service Logo">
+			<h1>Build Private Ethereum Networks</h1>
+		</header>
+
 		<div id="root"></div>
 		<script type="module" src="/src/main.jsx"></script>
+
+		<footer>
+			<a href="#">About us</a>
+			<a href="#">Privacy</a>
+			<a href="#">Terms and Conditions</a>
+			<a href="https://discord.com/"><img src="\src\assets\discord-icon.png" alt="Discord"></a>
+			<a href="https://github.com/"><img src="\src\assets\github-icon.png" alt="Github"></a>
+			<a href="https://twitter.com/"><img src="\src\assets\twitter-icon.png" alt="Twiter"></a>
+			<a href="https://www.linkedin.com"><img src="\src\assets\linkedin-icon.png" alt="LinkedIn"></a>
+		</footer>
+
 	</body>
 </html>
