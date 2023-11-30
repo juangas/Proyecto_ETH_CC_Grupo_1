@@ -5,7 +5,7 @@ function Terms() {
 
 	return (
 
-		<div className="container mt-5 overflow-auto">
+		<div className="container vh-100 overflow-auto">
 			<h1 className="text-center">Terms and Conditions of Use</h1>
 			<p><strong>1. Acceptance of Terms</strong></p>
 			<p>By accessing and using this website, you agree to comply with and be subject to these terms and conditions of use. If you do not agree with any of these terms, please do not use this site.</p>
@@ -24,7 +24,7 @@ function Terms() {
 			<p><strong>8. Applicable Law</strong></p>
 			<p>These terms and conditions are governed by the laws applicable in the national and international territory, without regard to their conflicts of legal principles.</p>
 			<p><strong>9. Contact</strong></p>
-			<p>If you have any questions or concerns about these terms and conditions, please contact us <a href="/src/pages/about.html">here</a>.</p>
+			<p>If you have any questions or concerns about these terms and conditions, please contact us <a href="/about">here</a>.</p>
 			<p className="mt-5 text-center">By using this site, you agree to these terms and conditions of use.</p>
 
 		</div>

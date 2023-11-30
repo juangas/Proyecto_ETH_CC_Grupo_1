@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function Privacy() {
 
 	return (
-		<div className="container mt-5 overflow-auto">
+		<div className="container vh-100 overflow-auto">
 			<h1 className="text-center">Privacy Policy</h1>
 			<p>This Privacy Policy describes how "CodeCrypto-EthereumTeamProject-Team1" collects, uses, and discloses information we receive through your use of this website.</p>
 			<p><strong>Information Collection and Use</strong></p>

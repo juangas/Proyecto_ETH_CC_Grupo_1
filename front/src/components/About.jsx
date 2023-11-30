@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function About() {
 	return (
-		<div className="container overflow-auto">
+		<div className="container vh-100 overflow-auto">
 			<h1 className="text-center">About Us</h1>
 			<p>Welcome to "CodeCrypto-EthereumTeamProject-Team1"! </p>
             <p>We are dedicated to providing tools to deploy and manage easily PRIVATE ETHEREUM NETWORKS based on geth ethereum client <a href="https://geth.ethereum.org/docs">(geth link)</a></p>
