@@ -1,4 +1,4 @@
-# Creation of a PoA (Proof of Authority) private ethereum network 
+# Creation of a PoA (Proof of Authority) private ethereum network
 
 ### 1. Clone the repo and create the directory of the node
 
@@ -19,6 +19,7 @@ docker run --rm -it -v $PWD/node_1:/root/.ethereum ethereum/client-go --datadir 
 The command will prompt for a password, in my case for testing purposes I have not included any one.
 
 Example output
+
 ```bash
 Your new account is locked with a password. Please give a password. Do not forget this password.
 Password:
@@ -45,8 +46,8 @@ Copy the public address and save it (in my case `0x8631AC0F35483eD63167c26F7aE18
 
 - `extradata`: This parameter has all the addresses of the signers that will be the nodes that will act as validators. Include the address generated in the previous step.
 
-
 Example `genesis.json`:
+
 ```json
 {
   "config": {
@@ -75,7 +76,6 @@ Example `genesis.json`:
     }
   }
 }
-
 ```
 
 Copy the file into the node directory:
@@ -119,3 +119,55 @@ To access the node from your metamask you will need to add the network to it. In
 ![](./images/nodos.png)
 
 Once filanizing all the steps you will be able to make txs in your private PoA ethereum network.
+
+### Usando GETH
+
+1 creados dos nodos
+
+```bash
+mkdir node_1
+mkdir node_2
+```
+
+2 accedemos al nodo_1 y creamos su cuenta
+
+```bash
+cd node_1
+geth --datadir "./data" account new
+```
+
+Introducimos pwd
+nos genera la siguiente respuesta
+
+```
+Your new key was generated
+
+Public address of the key:   0xAA43Bc7a944240a7962E13B20fD25A24e1D66a53
+Path of the secret key file: data/keystore/UTC--2023-11-30T16-06-12.190278000Z--aa43bc7a944240a7962e13b20fd25a24e1d66a53
+
+- You can share your public address with anyone. Others need it to interact with you.
+- You must NEVER share the secret key with anyone! The key controls access to your funds!
+- You must BACKUP your key file! Without the key, it's impossible to access account funds!
+- You must REMEMBER your password! Without the password, it's impossible to decrypt the key!
+```
+
+3. realizamos la misma operacion para el node_1
+
+```bash
+cd ../node_2
+geth --datadir "./data" account new
+```
+
+obtenemos una respuest similar a la anterior
+
+```
+Your new key was generated
+
+Public address of the key:   0xa0Ce2b92944cf7bd5c71607C215a6e911E19313A
+Path of the secret key file: data/keystore/UTC--2023-11-30T16-16-32.082739000Z--a0ce2b92944cf7bd5c71607c215a6e911e19313a
+
+- You can share your public address with anyone. Others need it to interact with you.
+- You must NEVER share the secret key with anyone! The key controls access to your funds!
+- You must BACKUP your key file! Without the key, it's impossible to access account funds!
+- You must REMEMBER your password! Without the password, it's impossible to decrypt the key!
+```
