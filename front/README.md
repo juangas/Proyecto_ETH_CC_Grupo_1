@@ -2,13 +2,18 @@
 
 To start the frontend application, you need to follow these steps, always from the front folder:
 
-1. Install all necessary dependencies using
+1. Move to folder corresponding to front
+```bash
+cd front
+```
+
+2. Install all necessary dependencies using
 
 ```bash
 yarn install
 ```
 
-2. Start the application using
+3. Start the application using
 
 ```bash
 yarn dev
