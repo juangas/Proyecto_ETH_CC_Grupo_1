@@ -1,0 +1,8 @@
+node_1:
+* account: 0xAA43Bc7a944240a7962E13B20fD25A24e1D66a53
+* pwd: 1234
+
+
+node_2
+* account: 0xa0Ce2b92944cf7bd5c71607C215a6e911E19313A
+* pwd: 1234
