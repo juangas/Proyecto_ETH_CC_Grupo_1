@@ -128,3 +128,12 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# nodes
+nodes/docker-compose/private_network/*/geth/
+nodes/docker-compose/private_network/*/keystore/
+nodes/docker-compose/private_network/*/genesis.json
+nodes/docker-compose/private_network/*/boot.key
+nodes/docker-compose/private_network/*/bootnode
+nodes/docker-compose/private_network/*/password.txt
+nodes/docker-compose/files_network/bootnode

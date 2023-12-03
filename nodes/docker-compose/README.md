@@ -1,4 +1,4 @@
-# Creation of a PoA (Proof of Authority) private ethereum network 
+# Creation of a PoA (Proof of Authority) private ethereum network
 
 ### 1. Clone the repo and create the directory of the node
 
@@ -32,3 +32,21 @@ You can connect to anyone of the nodes except the bootnode (There is not exposed
 ![](./images/nodos.png)
 
 Once filanizing all the steps you will be able to make txs in your private PoA ethereum network.
+
+### Posibles error:
+
+- Network proyecto_eth_cc_grupo_1_chainnet
+
+```
+failed to create network proyecto_eth_cc_grupo_1_chainnet: Error response from daemon: Pool overlaps with other one on this address space
+```
+
+This error means the range of IPs selected are in use. To avoid this you can change the IP 172.26.0.100 --> 172.26.0.0/24. Remember to change the other IPs.
+
+- IPC opening failed
+  To avoid this error you can use the flag --ipcdisable in the scripts to start the nodes.
+  Scripts:
+
+* crear_directorios.sh --> geth --datadir=/root/.ethereum/bootnode --nat extip:$BOOT_IP --ipcdisable --bootnodes $BOOTNODE
+* ejecutar_node_normal.sh --> geth --http --http.addr 0.0.0.0 --http.port $PORT --http.api web3,eth,net,debug,personal,txpool --http.corsdomain '\*' --datadir=/root/.ethereum --ipcdisable --bootnodes $BOOTNODE
+* ejecutar_nodo_validador.sh --> geth --http --http.addr 0.0.0.0 --http.port $PORT --http.api web3,eth,net,debug,personal,txpool --http.corsdomain '*' --datadir=/root/.ethereum --unlock $(echo "$WALLET_ADDRESS") --password /root/.ethereum/password.txt --mine --miner.etherbase $(echo "$WALLET_ADDRESS") --allow-insecure-unlock --nat extip:172.25.0.101 --ipcdisable --bootnodes $BOOTNODE
