@@ -20,7 +20,16 @@ function Home() {
                     <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <a className="nav-link" href="/network">Network Management</a>
+                            <a className="nav-link" href="/balance">Balance</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="/faucet">Faucet</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="/networkExplorer">Explorer</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="/networkManagement">Network Manager</a>
                         </li>
                     </ul>
                     </div>

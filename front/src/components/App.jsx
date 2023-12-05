@@ -6,7 +6,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 //Components
 import Home from './Home';
-import Network from './Network';
+import Balance from './Balance';
+import Faucet from './Faucet';
+import NetworkManagement from './NetworkManagement';
+import NetworkExplorer from './NetworkExplorer';
 import About from './About';
 import Privacy from './Privacy';
 import Terms from './Terms';
@@ -16,7 +19,10 @@ function App() {
 		<BrowserRouter>
 			<Routes>
 				<Route path="/" element={<Home></Home>}>
-					<Route path="/network" element={<Network></Network>}/>
+					<Route path="/balance" element={<Balance></Balance>}/>
+					<Route path="/faucet" element={<Faucet></Faucet>}/>
+					<Route path="/networkManagement" element={<NetworkManagement></NetworkManagement>}/>
+					<Route path="/networkExplorer" element={<NetworkExplorer></NetworkExplorer>}/>
 					<Route path="/about" element={<About></About>}/>
 					<Route path="/privacy" element={<Privacy></Privacy>}/>
 					<Route path="/terms" element={<Terms></Terms>}/>

@@ -7,7 +7,7 @@ const provider = 'http://localhost:8580'
 const web3 = new Web3(new Web3.providers.HttpProvider(provider));
 //wallet
 const jsonWallet = JSON.parse(fs.readFileSync("../nodes/docker-compose/files_network/keystore/UTC--2023-11-29T19-59-39.261557598Z--2104d98f2fd723443f3873a02a4f4b53899fae99"))
-console.log(jsonWallet)
+//console.log(jsonWallet)
 
 //-------------------------------------------Server instance--------------------------------------------
 const app = express()
