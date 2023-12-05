@@ -67,12 +67,12 @@ function Balance() {
 
     //Return result with current balance
 	return (
-		<div className="container vh-100 overflow-auto">
+		<div className="container vh-100">
 			<div className="bg-white text-black text-center py-4">
                 <div className="bg-light border p-2">
                     <h5><img src="\src\assets\metamask.png" alt="Metamask Logo" width="30" height="auto"></img>Current account:</h5>
-                    <h6><b>Adrress:</b> {account ? account : 'Loading...'}</h6>
-                    <h6><b>Balance:</b> {balance ? balance : 'Loading...'}</h6>
+                    <h6><b>Adrress:</b> {account || 'Loading...'}</h6>
+                    <h6><b>Balance:</b> {balance || 'Loading...'}</h6>
                 </div>
 			</div>
 
@@ -89,7 +89,7 @@ function Balance() {
                 </div>
             </div>
 
-            <div className="container vh-100 overflow-auto">
+            <div className="container vh-100">
 			<div className="bg-white text-black text-center py-4 ">
 				<h5>--Under construction--</h5>
 			</div>

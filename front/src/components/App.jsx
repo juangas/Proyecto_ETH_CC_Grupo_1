@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from './Home';
 import Balance from './Balance';
 import Faucet from './Faucet';
+import Transact from './Transact';
 import NetworkManagement from './NetworkManagement';
 import NetworkExplorer from './NetworkExplorer';
 import About from './About';
@@ -21,6 +22,7 @@ function App() {
 				<Route path="/" element={<Home></Home>}>
 					<Route path="/balance" element={<Balance></Balance>}/>
 					<Route path="/faucet" element={<Faucet></Faucet>}/>
+					<Route path="/transact" element={<Transact></Transact>}/>
 					<Route path="/networkManagement" element={<NetworkManagement></NetworkManagement>}/>
 					<Route path="/networkExplorer" element={<NetworkExplorer></NetworkExplorer>}/>
 					<Route path="/about" element={<About></About>}/>

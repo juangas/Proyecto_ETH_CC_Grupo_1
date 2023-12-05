@@ -26,6 +26,9 @@ function Home() {
                             <a className="nav-link" href="/faucet">Faucet</a>
                         </li>
                         <li className="nav-item">
+                            <a className="nav-link" href="/transact">Transact</a>
+                        </li>
+                        <li className="nav-item">
                             <a className="nav-link" href="/networkExplorer">Explorer</a>
                         </li>
                         <li className="nav-item">
