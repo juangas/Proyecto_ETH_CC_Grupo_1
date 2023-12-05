@@ -6,6 +6,6 @@
   "dependencies": {
     "express": "^4.18.2",
     "fs": "^0.0.1-security",
-    "web3": "^1.x.x"
+    "web3": "^4.3.0"
   }
 }
