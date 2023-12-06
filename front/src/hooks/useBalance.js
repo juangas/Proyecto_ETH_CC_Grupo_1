@@ -3,8 +3,7 @@ import { ethers } from 'ethers';
 
 const { ethereum } = window;
 
-export const useBalance = (account, isLoading) => {
-	console.log(isLoading);
+export const useBalance = account => {
 	const [balance, setBalance] = useState(null);
 
 	useEffect(() => {
@@ -14,7 +13,7 @@ export const useBalance = (account, isLoading) => {
 				setBalance(ethers.formatEther(balance));
 			});
 		}
-	}, [account, isLoading]);
+	}, [account]);
 
 	return { balance };
 };

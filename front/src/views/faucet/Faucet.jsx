@@ -40,7 +40,7 @@ export default function Faucet() {
 	return (
 		<div className='faucet'>
 			<div>
-				<WalletInfo isLoading={isLoadingTx} />
+				<WalletInfo />
 			</div>
 			<div className='row'>
 				<div className='col'></div>
@@ -73,7 +73,26 @@ export default function Faucet() {
 				</div>
 				<div className='col'></div>
 			</div>
-			<div className='row'></div>
+			<div className='row'>
+				<div className='col'></div>
+				<div className='col-sm-6'>
+					{!isLoadingTx && tx && (
+						<div className='alert alert-success' role='alert'>
+							Transaction successfully.
+							<br /> The hash is{' '}
+							<span style={{ wordBreak: 'break-all' }}>
+								{tx.transactionHash}
+							</span>
+						</div>
+					)}
+					{!isLoadingTx && errorTx && (
+						<div className='alert alert-danger' role='alert'>
+							Oops! somethings was wrong
+						</div>
+					)}
+				</div>
+				<div className='col'></div>
+			</div>
 		</div>
 	);
 }
