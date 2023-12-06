@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // Components
 import Home from './views/Home';
-import Faucet from './views/Faucet';
+import Faucet from './views/faucet/Faucet';
 import Balance from './views/Balance';
 import Transact from './views/Transact';
 import NetworkManagement from './views/NetworkManagement';

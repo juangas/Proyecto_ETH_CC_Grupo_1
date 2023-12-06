@@ -1,9 +1,10 @@
+import PropTypes from 'prop-types';
 import { useAccount } from '../hooks/useAccount';
 import { useBalance } from '../hooks/useBalance';
 
-export default function WalletInfo() {
+export default function WalletInfo({ isLoading }) {
 	const { account } = useAccount();
-	const { balance } = useBalance(account);
+	const { balance } = useBalance(account, isLoading);
 
 	return (
 		<div className='bg-white text-black text-center py-4'>
@@ -27,3 +28,7 @@ export default function WalletInfo() {
 		</div>
 	);
 }
+
+WalletInfo.propTypes = {
+	isLoading: PropTypes.bool,
+};

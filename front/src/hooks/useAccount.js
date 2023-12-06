@@ -22,5 +22,20 @@ export const useAccount = () => {
 		}
 	}, []);
 
+	useEffect(() => {
+		const updateAccount = listOfAccount => {
+			setAccount(listOfAccount[0]);
+		};
+		if (ethereum) {
+			ethereum.on('accountsChanged', updateAccount);
+		}
+
+		return () => {
+			if (ethereum) {
+				ethereum.off('accountsChanged', updateAccount);
+			}
+		};
+	}, []);
+
 	return { account, isLoadAccount, hasErrorAccount };
 };

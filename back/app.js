@@ -1,28 +1,37 @@
-const {Web3} = require("web3")
-const express = require("express")
-const fs = require("fs")
+const { Web3 } = require("web3");
+const express = require("express");
+const fs = require("fs");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+require("dotenv").config();
+const KEYSTORE = process.env.KEYSTORE;
+const PASSWORD = process.env.PASSWORD;
 
 //Provider
-const provider = 'http://localhost:8580'
+const provider = "http://localhost:8580";
 const web3 = new Web3(new Web3.providers.HttpProvider(provider));
+
 //wallet
-const jsonWallet = JSON.parse(fs.readFileSync("../nodes/docker-compose/files_network/keystore/UTC--2023-11-29T19-59-39.261557598Z--2104d98f2fd723443f3873a02a4f4b53899fae99"))
+const jsonWallet = JSON.parse(
+  fs.readFileSync(`../nodes/docker-compose/files_network/keystore/${KEYSTORE}`)
+);
 //console.log(jsonWallet)
 
 //-------------------------------------------Server instance--------------------------------------------
-const app = express()
+const app = express();
 
 //---------------------------------------------Middlewares--------------------------------------------
 //app.use(...)
-
+app.use(cors());
+app.use(bodyParser.json()); // Para manejar el cuerpo de la solicitud en formato JSON
+app.use(bodyParser.urlencoded({ extended: false }));
 
 //-----------------------------------------------Routes--------------------------------------------
 
 //Root
-app.get("/", (req,res) =>{
-    res.send("Hello I am ETP Team1 backend!!!");
-})
-
+app.get("/", (req, res) => {
+  res.send("Hello I am ETP Team1 backend!!!");
+});
 
 //Get balance of account
 /*	ETP A1
@@ -31,88 +40,95 @@ app.get("/", (req,res) =>{
 	ETP A2
 	0x9fFa2c0770952f605247BdAB10108aa67A291441
 */
-app.get("/balance/:address", async (req,res)=>{
-    try{
-        const balance = await web3.eth.getBalance(req.params.address);
-        console.log(balance);
-        res.send(`Balance: ${balance}`);
-    }
-    catch(error){
-        console.log(error);
-        res.status(500).send({error});
-    }
+app.get("/balance/:address", async (req, res) => {
+  try {
+    const balance = await web3.eth.getBalance(req.params.address);
+    console.log(balance);
+    res.send(`Balance: ${balance}`);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ error });
+  }
 });
 
 //Get last N blocks from blockchain
-app.get("/lastBlocks/:n", async (req,res)=>{
+app.get("/lastBlocks/:n", async (req, res) => {
+  try {
+    //Retrieve last block number
+    const latestBlockNumber = await web3.eth.getBlockNumber();
+    console.log(`Last block number: ${latestBlockNumber} `);
+    console.log(`Num blocks to retrieve: ${req.params.n} `);
 
-    try{
-        //Retrieve last block number
-        const latestBlockNumber = await web3.eth.getBlockNumber();
-        console.log(`Last block number: ${latestBlockNumber} `);
-        console.log(`Num blocks to retrieve: ${req.params.n} `);
+    const blocks = [];
+    for (let i = 0; i < req.params.n; i++) {
+      const blockNumber = latestBlockNumber - BigInt(i);
+      console.log(`Getting blockNumber: ${blockNumber}`);
 
-        const blocks = [];
-        for (let i = 0; i <req.params.n; i++) {
-           
-            const blockNumber = latestBlockNumber - BigInt(i);
-            console.log(`Getting blockNumber: ${blockNumber}`);
-            
-            const block = await web3.eth.getBlock(blockNumber);
-            console.log(`Retrieved blockNumber: ${blockNumber}`);
+      const block = await web3.eth.getBlock(blockNumber);
+      console.log(`Retrieved blockNumber: ${blockNumber}`);
 
-            //Convert BigInt -> unable to parse BigInt with JSON.stringify()
-            const parseBlock = JSON.parse(JSON.stringify(block, (key, value) => 
-                typeof value === 'bigint' ? value.toString() : value
-            ));
+      //Convert BigInt -> unable to parse BigInt with JSON.stringify()
+      const parseBlock = JSON.parse(
+        JSON.stringify(block, (key, value) =>
+          typeof value === "bigint" ? value.toString() : value
+        )
+      );
 
-            blocks.push(parseBlock);
-        }
-        
-        res.send(`Blocks: ${JSON.stringify(blocks, null, 2)}`);
-
+      blocks.push(parseBlock);
     }
-    catch(error){
-        res.status(500).send({error});
-    }
+
+    res.send(`Blocks: ${JSON.stringify(blocks, null, 2)}`);
+  } catch (error) {
+    res.status(500).send({ error });
+  }
 });
 
-//Get details for specific block 
-app.get("/blockDetails/:blockNr", async (req,res)=>{
+//Get details for specific block
+app.get("/blockDetails/:blockNr", async (req, res) => {
+  try {
+    console.log(`Getting block number: ${req.params.blockNr}`);
 
-    try{
+    const block = await web3.eth.getBlock(req.params.blockNr);
 
-        console.log(`Getting block number: ${req.params.blockNr}`);
+    //Convert BigInt -> unable to parse BigInt with JSON.stringify()
+    const parseBlock = JSON.parse(
+      JSON.stringify(block, (key, value) =>
+        typeof value === "bigint" ? value.toString() : value
+      )
+    );
 
-        const block = await web3.eth.getBlock(req.params.blockNr);
-
-        //Convert BigInt -> unable to parse BigInt with JSON.stringify()
-        const parseBlock = JSON.parse(JSON.stringify(block, (key, value) => 
-            typeof value === 'bigint' ? value.toString() : value
-        ));
-    
-        res.send({parseBlock});
-    }
-    catch(error){
-        res.status(500).send({error});
-    }
+    res.send({ parseBlock });
+  } catch (error) {
+    res.status(500).send({ error });
+  }
 });
 
-//Faucet 
-app.get("/faucet/:address/:cantidad", async(req, res) => {
-    const account = await web3.eth.accounts.decrypt(jsonWallet, "aaa")
-    const tx = {
-        chainId: 69,
-        to: req.params.address,
-        from: account.address,
-        gas: 30000,
-        value: web3.utils.toWei(req.params.cantidad, 'ether')
-    }
-    const txSigned = await account.signTransaction(tx);
-    const respuesta= await web3.eth.sendSignedTransaction(txSigned.rawTransaction)
-    res.send(respuesta)
-})
-
+//Faucet
+app.post("/faucet", async (req, res) => {
+  const { to, value } = req.body;
+  const account = await web3.eth.accounts.decrypt(jsonWallet, PASSWORD);
+  const tx = {
+    chainId: 69,
+    to,
+    from: account.address,
+    gas: 530000,
+    gasPrice: "5000000000",
+    value: web3.utils.toWei(value, "ether"),
+  };
+  const txSigned = await account.signTransaction(tx);
+  const respuesta = await web3.eth.sendSignedTransaction(
+    txSigned.rawTransaction
+  );
+  //para evitat el problema de bigInt
+  respuesta.blockNumber = respuesta.blockNumber.toString();
+  respuesta.cumulativeGasUsed = respuesta.cumulativeGasUsed.toString();
+  respuesta.effectiveGasPrice = respuesta.effectiveGasPrice.toString();
+  respuesta.gasUsed = respuesta.gasUsed.toString();
+  respuesta.status = respuesta.status.toString();
+  respuesta.transactionIndex = respuesta.transactionIndex.toString();
+  respuesta.type = respuesta.type.toString();
+  res.send(respuesta);
+});
 
 //--------------------------------------------Run server--------------------------------------------
-app.listen(3333)
+app.listen(3333);
