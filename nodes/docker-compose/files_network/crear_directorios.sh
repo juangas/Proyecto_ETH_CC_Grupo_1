@@ -62,4 +62,4 @@ BOOTNODE=$(cat /scripts/bootnode | head -n 1)
 
 geth init --datadir /root/.ethereum/bootnode /root/.ethereum/bootnode/genesis.json
 
-geth --datadir=/root/.ethereum/bootnode --nat extip:$BOOT_IP --bootnodes $BOOTNODE
+geth --datadir=/root/.ethereum/bootnode --nat extip:$BOOT_IP --ipcdisable --bootnodes $BOOTNODE

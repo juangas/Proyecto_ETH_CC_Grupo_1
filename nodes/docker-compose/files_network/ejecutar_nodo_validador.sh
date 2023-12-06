@@ -38,4 +38,4 @@ geth init /root/.ethereum/genesis.json
 echo "Hello from here"
 BOOTNODE=$(cat /root/.ethereum/bootnode | head -n 1)
 
-geth --http --http.addr 0.0.0.0 --http.port $PORT --http.api web3,eth,net,debug,personal,txpool --http.corsdomain '*' --datadir=/root/.ethereum --unlock $(echo "$WALLET_ADDRESS") --password /root/.ethereum/password.txt --mine --miner.etherbase $(echo "$WALLET_ADDRESS") --allow-insecure-unlock --nat extip:172.25.0.101 --bootnodes $BOOTNODE
+geth --http --http.addr 0.0.0.0 --http.port $PORT --http.api web3,eth,net,debug,personal,txpool --http.corsdomain '*' --datadir=/root/.ethereum --unlock $(echo "$WALLET_ADDRESS") --password /root/.ethereum/password.txt --mine --miner.etherbase $(echo "$WALLET_ADDRESS") --allow-insecure-unlock --nat extip:172.25.0.101 --ipcdisable --bootnodes $BOOTNODE

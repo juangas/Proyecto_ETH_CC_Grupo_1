@@ -33,4 +33,4 @@ geth init /root/.ethereum/genesis.json
 
 BOOTNODE=$(cat /root/.ethereum/bootnode | head -n 1)
 
-geth --http --http.addr 0.0.0.0 --http.port $PORT --http.api web3,eth,net,debug,personal,txpool --http.corsdomain '*' --datadir=/root/.ethereum --bootnodes $BOOTNODE
+geth --http --http.addr 0.0.0.0 --http.port $PORT --http.api web3,eth,net,debug,personal,txpool --http.corsdomain '*' --datadir=/root/.ethereum --ipcdisable --bootnodes $BOOTNODE
