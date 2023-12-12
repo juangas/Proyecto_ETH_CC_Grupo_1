@@ -4,8 +4,11 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "body-parse": "^0.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "ethers": "^6.9.0",
     "express": "^4.18.2",
-    "fs": "^0.0.1-security",
-    "web3": "^1.x.x"
+    "web3": "^4.3.0"
   }
 }
