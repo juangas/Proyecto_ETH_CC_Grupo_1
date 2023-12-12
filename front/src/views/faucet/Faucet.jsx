@@ -39,9 +39,7 @@ export default function Faucet() {
 
 	return (
 		<div className='faucet'>
-			<div>
-				<WalletInfo />
-			</div>
+			<WalletInfo />
 			<div className='row'>
 				<div className='col'></div>
 				<div className='col-sm-6'>

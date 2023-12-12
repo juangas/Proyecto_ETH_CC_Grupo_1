@@ -5,26 +5,30 @@ export const useAccount = () => {
 	const [account, setAccount] = useState(null);
 	const [isLoadAccount, setIsLoadingAccount] = useState(true);
 	const [hasErrorAccount, setHasErrorAccount] = useState(null);
+	const [accountList, setAccountList] = useState([]);
 
 	useEffect(() => {
 		// If ethereum exists, requet chrome and connect to metamask
 		setIsLoadingAccount(true);
 		if (ethereum) {
-			ethereum.request({ method: 'eth_requestAccounts' }).then(account => {
-				setAccount(account[0]);
-				setIsLoadingAccount(false);
-				ethereum.on('accountsChanged', i => {
-					setAccount(i[0]);
+			setHasErrorAccount(null);
+			ethereum
+				.request({ method: 'eth_requestAccounts' })
+				.then(listOfAccount => {
+					setAccount(listOfAccount[0]);
+					setAccountList(listOfAccount.filter((_account, i) => i !== 0));
+					setIsLoadingAccount(false);
 				});
-			});
 		} else {
 			setHasErrorAccount('Not exist ethereum');
+			setIsLoadingAccount(false);
 		}
 	}, []);
 
 	useEffect(() => {
 		const updateAccount = listOfAccount => {
 			setAccount(listOfAccount[0]);
+			setAccountList(listOfAccount.filter((_account, i) => i !== 0));
 		};
 		if (ethereum) {
 			ethereum.on('accountsChanged', updateAccount);
@@ -37,5 +41,5 @@ export const useAccount = () => {
 		};
 	}, []);
 
-	return { account, isLoadAccount, hasErrorAccount };
+	return { account, isLoadAccount, hasErrorAccount, accountList };
 };
