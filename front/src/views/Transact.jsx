@@ -19,12 +19,13 @@ function Transact() {
 		const walletValueTo = formData.get('walletSelect');
 		const transactionValue = formData.get('value');
 
+		const bigIntTransactionValue = BigInt(ethers.parseEther(transactionValue));
+		const hexBigIntTransactionValue = bigIntTransactionValue.toString(16);
+
 		const params = {
 			from: account,
 			to: walletValueTo,
-			gas: '1',
-			gasLimit: '1',
-			value: ethers.parseEther(transactionValue).toString(),
+			value: hexBigIntTransactionValue,
 		};
 		setIsLoadingTx(true);
 		setErrorTx(null);
