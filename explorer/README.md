@@ -4,7 +4,7 @@ Have your Ethereum PoA running and at least a node accesible to the explorer.
 
 ### Installation of the explorer
 
-1. Change the parameters `ETHEREUM_JSONRPC_HTTP_URL` and `ETHEREUM_JSONRPC_TRACE_URL` in the file `Proyecto_ETH_CC_Grupo_1/explorer/blockscout/docker-compose/envs/common-blockscout.env`.
+1. Change the parameters `ETHEREUM_JSONRPC_HTTP_URL` and `ETHEREUM_JSONRPC_TRACE_URL` in the file `Proyecto_ETH_CC_Grupo_1/explorer/blockscout/docker-compose/envs/common-blockscout.env` with the host and port of your node.
 
 
 2. Deploy the blockexplorer with the command:
