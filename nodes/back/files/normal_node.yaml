@@ -1,0 +1,12 @@
+node_normal:
+    image: ethereum/client-go
+    volumes: 
+      - ./private_network/node_2:/root/.ethereum
+      - ./files_network:/scripts
+    entrypoint: bin/sh
+    command:
+      - -c
+      - /scripts/ejecutar_nodo_normal.sh
+    networks:
+      chainnet: 
+        ipv4_address: 172.25.0.102
