@@ -10,7 +10,7 @@ Have your Ethereum PoA running and at least a node accesible to the explorer.
 2. Deploy the blockexplorer with the command:
 
 ```bash
-docker compose -f /home/juangas/codecrypto/rama_dev/Proyecto_ETH_CC_Grupo_1/explorer/blockscout/docker-compose/geth-clique-consensus.yml
+docker compose -f /home/juangas/codecrypto/rama_dev/Proyecto_ETH_CC_Grupo_1/explorer/blockscout/docker-compose/geth-clique-consensus.yml up
 ```
 
 3. If you have deployed in your host machine the explorer should be accessible at http://localhost
