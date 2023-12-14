@@ -69,7 +69,9 @@ extradata="0x0000000000000000000000000000000000000000000000000000000000000000"
 for i in `seq 1 $N_VALIDATOR_NODES`
 do
   mkdir -p /root/.ethereum/validator_node_$i
-  geth account new --datadir /root/.ethereum/validator_node_$i --password /scripts/password.txt
+  if [ -z "$(find "/root/.ethereum/validator_node_$i/keystore" -mindepth 1 -print -quit)" ]; then
+    geth account new --datadir /root/.ethereum/validator_node_$i --password /scripts/password.txt
+  fi
   extradata="$extradata"$(jq -r .address /root/.ethereum/validator_node_$i/keystore/$(ls /root/.ethereum/validator_node_$i/keystore))
 done
 extradata="$extradata"0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
