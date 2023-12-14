@@ -1,3 +1,9 @@
+import React from 'react';
+import axios from 'axios';
+import { ethers } from 'ethers';
+
+import { useState } from 'react';
+
 // styles
 import 'bootstrap/dist/css/bootstrap.min.css';
 import WalletInfo from '../components/WalletInfo';
@@ -5,20 +11,41 @@ import WalletInfo from '../components/WalletInfo';
 // Get instance of ethereum object from chrome
 const { ethereum } = window;
 
+
 function Balance() {
-	const handleGetBalance = async () => {
-		/*
-        try {
-          // Request: http://localhost:3333/balance/:address
-          const response = await fetch('http://localhost:3333/balance/0x53db8233B2448fa6003d62a51318b71aab0aDc2e');
-          const data = await response.json();
-          
-          console.log(data);
-        } 
-        catch (error) {
-            console.error('Error in request: http://localhost:3333/balance/:address', error);
-        }
-        */
+
+	const [inputAccount, setInputAccount] = useState('');
+	const [isLoading, setIsLoading] = useState(false);
+	const [isError, setIsError] = useState(false);
+	const [balance, setBalance] = useState('');
+
+	const setAccount = async (event) => {
+		//console.log("event.target.value: ", event.target.value)
+		setInputAccount(event.target.value);
+	};
+
+
+	const handleGetBalance = async (event) => {
+		
+		event.preventDefault();
+
+		//console.log("handleGetBalance-Input account: ", inputAccount)
+		setIsLoading(true);
+		setIsError(false);
+		try {
+			const route = `http://localhost:3333/balance/${inputAccount}`;
+			const response = await axios.get(route);
+			//console.log('Balance retrieve is: ', response.data.Balance);
+			const balanceEth = ethers.formatEther(response.data.Balance);
+			//console.log('Balance retrieve in ETH: ', balanceEth);
+
+			setBalance(balanceEth);
+
+		} catch (error) {
+			setIsError(true);
+			console.error(error);
+		}
+		setIsLoading(false);
 	};
 
 	if (!ethereum) {
@@ -33,36 +60,61 @@ function Balance() {
 
 	// Return result with current balance
 	return (
-		<div className='vh-100'>
+		<div className='Balance'>
 			<WalletInfo />
-
-			<div className='row text-left'>
+			<div className='row'>
 				<div className='col'></div>
 				<div className='col-md-6'>
-					<form>
-						<div className='form-group'>
-							<label htmlFor='fieldAccount'>
-								<h5>Account</h5>
-							</label>
-							<input
-								type='text'
-								className='form-control'
-								id='fieldAccount'
-								placeholder='Insert here a valid account to get balance'
-							></input>
+					<div className='card'>
+						{isLoading && (
+							<div className='overlay'>
+								<div
+									className='spinner-border text-secondary'
+									role='status'
+								></div>
+							</div>
+						)}
+						<div className='card-body'>
+							<form onSubmit={handleGetBalance} className='row g-3'>
+								<h5 className='card-title'>Account</h5>
+								<input
+									type='text'
+									placeholder='Insert here a valid account to get balance'
+									name='account'
+									id='fieldAccount'
+									onChange={setAccount}
+									required
+								/>
+								<button type='submit' className='btn btn-dark'>
+									Get Balance
+								</button>
+							</form>
 						</div>
-						<button type='submit' className='btn btn-dark'>
-							Get Balance
-						</button>
-					</form>
+					</div>
 				</div>
 				<div className='col'></div>
 			</div>
 
-			<div className='vh-100'>
-				<div className='bg-white text-black text-center py-4 '>
-					<h5>--Under construction--</h5>
+			<div className='row'>
+				<div className='col'></div>
+				<div className='col-sm-6'>
+					{isLoading && (
+						<div className='alert alert-success' role='alert'>
+							Loading
+						</div>
+					)}
+					{isError && (
+						<div className='alert alert-danger' role='alert'>
+							Oops! somethings was wrong
+						</div>
+					)}
+					{!isLoading && !isError && balance && (
+						<div className='alert alert-success' role='alert'>
+							{balance}
+						</div>
+					)}
 				</div>
+				<div className='col'></div>
 			</div>
 		</div>
 	);

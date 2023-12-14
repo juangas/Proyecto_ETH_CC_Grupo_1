@@ -20,6 +20,7 @@ Comprueba que exista el fichero de la walllet de la linea 9 del fichero /back/ap
 Comprueba que no tienes ocupado el puerto especificado en la línea 3 del fichero /back/app.js
 
 ```cmd
+cd back
 npx nodemon app.js
 ```
 

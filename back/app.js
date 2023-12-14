@@ -44,7 +44,15 @@ app.get("/balance/:address", async (req, res) => {
   try {
     const balance = await web3.eth.getBalance(req.params.address);
     console.log(balance);
-    res.send(`Balance: ${balance}`);
+
+    const parseBalance = JSON.parse(
+      JSON.stringify(balance, (key, value) =>
+        typeof value === "bigint" ? value.toString() : value
+      )
+    );
+    console.log(parseBalance);
+
+    res.send({Balance: parseBalance});
   } catch (error) {
     console.log(error);
     res.status(500).send({ error });
