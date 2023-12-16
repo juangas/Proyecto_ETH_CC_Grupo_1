@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 function Footer() {
 	return (
-		<footer className='bg-dark text-white text-center py-3 fixed-bottom'>
+		<footer className='bg-dark text-white text-center py-3 '>
 			<div className='container'>
 				<ul className='list-inline'>
 					<li className='list-inline-item'>

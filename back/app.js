@@ -8,7 +8,7 @@ const KEYSTORE = process.env.KEYSTORE;
 const PASSWORD = process.env.PASSWORD;
 
 //Provider
-const provider = "http://localhost:8580";
+const provider = "http://localhost:8545";
 const web3 = new Web3(new Web3.providers.HttpProvider(provider));
 
 //wallet
@@ -52,7 +52,7 @@ app.get("/balance/:address", async (req, res) => {
     );
     console.log(parseBalance);
 
-    res.send({Balance: parseBalance});
+    res.send({ Balance: parseBalance });
   } catch (error) {
     console.log(error);
     res.status(500).send({ error });
@@ -60,32 +60,31 @@ app.get("/balance/:address", async (req, res) => {
 });
 
 //Get last N blocks from blockchain
-app.get("/lastBlocks/:n", async (req, res) => {
+app.get("/lastBlocks", async (req, res) => {
   try {
     //Retrieve last block number
     const latestBlockNumber = await web3.eth.getBlockNumber();
-    console.log(`Last block number: ${latestBlockNumber} `);
-    console.log(`Num blocks to retrieve: ${req.params.n} `);
+    const numblock = parseInt(req.query.numblock) || 10;
+    const offset = parseInt(req.query.offset) || 0;
+    const getBlockFrom = latestBlockNumber - BigInt(offset);
 
     const blocks = [];
-    for (let i = 0; i < req.params.n; i++) {
-      const blockNumber = latestBlockNumber - BigInt(i);
-      console.log(`Getting blockNumber: ${blockNumber}`);
+    for (let i = 0; i < numblock; i++) {
+      const blockNumber = getBlockFrom - BigInt(i);
 
       const block = await web3.eth.getBlock(blockNumber);
-      console.log(`Retrieved blockNumber: ${blockNumber}`);
 
       //Convert BigInt -> unable to parse BigInt with JSON.stringify()
-      const parseBlock = JSON.parse(
-        JSON.stringify(block, (key, value) =>
-          typeof value === "bigint" ? value.toString() : value
-        )
-      );
+      const parseBlock = {
+        hash: block.hash,
+        timestamp: block.timestamp.toString(),
+        number: block.number.toString(),
+      };
 
       blocks.push(parseBlock);
     }
 
-    res.send(`Blocks: ${JSON.stringify(blocks, null, 2)}`);
+    res.send(blocks);
   } catch (error) {
     res.status(500).send({ error });
   }
