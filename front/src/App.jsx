@@ -10,6 +10,7 @@ import NetworkExplorer from './views/NetworkExplorer';
 import About from './views/About';
 import Privacy from './views/Privacy';
 import Terms from './views/Terms';
+import TransactInfo from './views/TransactInfo';
 
 function App() {
 	return (
@@ -19,6 +20,7 @@ function App() {
 					<Route path='/balance' element={<Balance />} />
 					<Route path='/faucet' element={<Faucet />} />
 					<Route path='/transact' element={<Transact />} />
+					<Route path='/transaction/:txHash' element={<TransactInfo />} />
 					<Route path='/networkManagement' element={<NetworkManagement />} />
 					<Route path='/networkExplorer' element={<NetworkExplorer />} />
 					<Route path='/about' element={<About />} />

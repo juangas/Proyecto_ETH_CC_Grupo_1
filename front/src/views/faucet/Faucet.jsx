@@ -2,6 +2,7 @@ import { useState } from 'react';
 import WalletInfo from '../../components/WalletInfo';
 import { useAccount } from '../../hooks/useAccount';
 import './faucet.scss';
+import { Link } from 'react-router-dom';
 
 export default function Faucet() {
 	const { account } = useAccount();
@@ -19,6 +20,8 @@ export default function Faucet() {
 			value,
 		};
 		setIsLoadingTx(true);
+		setErrorTx(null);
+		setTx(null);
 		try {
 			const result = await fetch('http://localhost:3333/faucet', {
 				body: JSON.stringify(body),
@@ -28,8 +31,12 @@ export default function Faucet() {
 				},
 			});
 
-			const response = await result.json();
-			setTx(response);
+			if (!result.ok) {
+				setErrorTx('Error en la transaccion');
+			} else {
+				const response = await result.json();
+				setTx(response);
+			}
 		} catch (error) {
 			console.error(error);
 			setErrorTx('Error en la transaccion');
@@ -79,7 +86,9 @@ export default function Faucet() {
 							Transaction successfully.
 							<br /> The hash is{' '}
 							<span style={{ wordBreak: 'break-all' }}>
-								{tx.transactionHash}
+								<Link to={`/transaction/${tx.transactionHash}`}>
+									{tx.transactionHash}
+								</Link>
 							</span>
 						</div>
 					)}

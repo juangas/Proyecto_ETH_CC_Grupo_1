@@ -1,46 +1,34 @@
-import React from 'react';
 import axios from 'axios';
 import { ethers } from 'ethers';
-
 import { useState } from 'react';
 
 // styles
-import 'bootstrap/dist/css/bootstrap.min.css';
 import WalletInfo from '../components/WalletInfo';
 
 // Get instance of ethereum object from chrome
 const { ethereum } = window;
 
-
 function Balance() {
-
 	const [inputAccount, setInputAccount] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
 	const [isError, setIsError] = useState(false);
 	const [balance, setBalance] = useState('');
 
-	const setAccount = async (event) => {
-		//console.log("event.target.value: ", event.target.value)
+	const setAccount = async event => {
 		setInputAccount(event.target.value);
 	};
 
-
-	const handleGetBalance = async (event) => {
-		
+	const handleGetBalance = async event => {
 		event.preventDefault();
 
-		//console.log("handleGetBalance-Input account: ", inputAccount)
 		setIsLoading(true);
 		setIsError(false);
 		try {
 			const route = `http://localhost:3333/balance/${inputAccount}`;
 			const response = await axios.get(route);
-			//console.log('Balance retrieve is: ', response.data.Balance);
 			const balanceEth = ethers.formatEther(response.data.Balance);
-			//console.log('Balance retrieve in ETH: ', balanceEth);
 
 			setBalance(balanceEth);
-
 		} catch (error) {
 			setIsError(true);
 			console.error(error);
