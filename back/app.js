@@ -55,7 +55,7 @@ app.get("/balance/:address", async (req, res) => {
     res.send({ Balance: parseBalance });
   } catch (error) {
     console.log(error);
-    res.status(500).send({ error });
+    res.status(400).send({ error });
   }
 });
 
@@ -73,6 +73,7 @@ app.get("/lastBlocks", async (req, res) => {
       const blockNumber = getBlockFrom - BigInt(i);
 
       const block = await web3.eth.getBlock(blockNumber);
+      console.log(block);
 
       //Convert BigInt -> unable to parse BigInt with JSON.stringify()
       const parseBlock = {
@@ -86,7 +87,7 @@ app.get("/lastBlocks", async (req, res) => {
 
     res.send(blocks);
   } catch (error) {
-    res.status(500).send({ error });
+    res.status(400).send({ error });
   }
 });
 
@@ -106,35 +107,67 @@ app.get("/blockDetails/:blockNr", async (req, res) => {
 
     res.send({ parseBlock });
   } catch (error) {
-    res.status(500).send({ error });
+    res.status(400).send({ error });
+  }
+});
+
+app.get("/transaction/:hash", async (req, res) => {
+  try {
+    console.log(`Getting block number: ${req.params.hash}`);
+
+    const block = await web3.eth.getTransaction(req.params.hash);
+
+    console.log(block);
+
+    //Convert BigInt -> unable to parse BigInt with JSON.stringify()
+    const parseBlock = JSON.parse(
+      JSON.stringify(block, (key, value) =>
+        typeof value === "bigint" ? value.toString() : value
+      )
+    );
+
+    res.send(parseBlock);
+  } catch (error) {
+    res.status(400).send({ error });
   }
 });
 
 //Faucet
 app.post("/faucet", async (req, res) => {
-  const { to, value } = req.body;
-  const account = await web3.eth.accounts.decrypt(jsonWallet, PASSWORD);
-  const tx = {
-    chainId: 69,
-    to,
-    from: account.address,
-    gas: 530000,
-    gasPrice: "5000000000",
-    value: web3.utils.toWei(value, "ether"),
-  };
-  const txSigned = await account.signTransaction(tx);
-  const respuesta = await web3.eth.sendSignedTransaction(
-    txSigned.rawTransaction
-  );
-  //para evitat el problema de bigInt
-  respuesta.blockNumber = respuesta.blockNumber.toString();
-  respuesta.cumulativeGasUsed = respuesta.cumulativeGasUsed.toString();
-  respuesta.effectiveGasPrice = respuesta.effectiveGasPrice.toString();
-  respuesta.gasUsed = respuesta.gasUsed.toString();
-  respuesta.status = respuesta.status.toString();
-  respuesta.transactionIndex = respuesta.transactionIndex.toString();
-  respuesta.type = respuesta.type.toString();
-  res.send(respuesta);
+  let account;
+  try {
+    const { to, value } = req.body;
+    account = await web3.eth.accounts.decrypt(jsonWallet, PASSWORD);
+  } catch (error) {
+    console.log("error faucet", error);
+    res.status(400).send({ error });
+  }
+  try {
+    const tx = {
+      chainId: 69,
+      to,
+      from: account.address,
+      gas: 530000,
+      gasPrice: "5000000000",
+      value: web3.utils.toWei(value, "ether"),
+    };
+    const txSigned = await account.signTransaction(tx);
+    const respuesta = await web3.eth.sendSignedTransaction(
+      txSigned.rawTransaction
+    );
+    //para evitat el problema de bigInt
+    respuesta.blockNumber = respuesta.blockNumber.toString();
+    respuesta.cumulativeGasUsed = respuesta.cumulativeGasUsed.toString();
+    respuesta.effectiveGasPrice = respuesta.effectiveGasPrice.toString();
+    respuesta.gasUsed = respuesta.gasUsed.toString();
+    respuesta.status = respuesta.status.toString();
+    respuesta.transactionIndex = respuesta.transactionIndex.toString();
+    respuesta.type = respuesta.type.toString();
+    res.send(respuesta);
+  } catch (error) {
+    console.log("error faucet", error);
+    res.status(400).send({ error });
+  }
 });
 
 //--------------------------------------------Run server--------------------------------------------

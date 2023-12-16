@@ -2,6 +2,7 @@ import WalletInfo from '../components/WalletInfo';
 import { ethers } from 'ethers';
 import { useAccount } from '../hooks/useAccount';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const { ethereum } = window;
 
@@ -100,7 +101,9 @@ function Transact() {
 						<div className='alert alert-success' role='alert'>
 							Transaction successfully.
 							<br /> The hash is{' '}
-							<span style={{ wordBreak: 'break-all' }}>{tx}</span>
+							<span style={{ wordBreak: 'break-all' }}>
+								<Link to={`/transaction/${tx}`}>{tx}</Link>
+							</span>
 						</div>
 					)}
 					{!isLoadingTx && errorTx && (
