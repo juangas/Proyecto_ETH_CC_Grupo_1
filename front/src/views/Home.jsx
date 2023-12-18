@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { Outlet, Link } from 'react-router-dom';
 
 // Components
@@ -5,6 +6,13 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 function Home() {
+
+	const [selectedItem, setSelectedItem] = useState(null);
+
+	const handleItemClick = (itemName) => {
+		setSelectedItem(itemName);
+	};
+
 	return (
 		<div className='Home'>
 			<Header />
@@ -23,28 +31,28 @@ function Home() {
 					</button>
 					<div className='collapse navbar-collapse' id='navbarNav'>
 						<ul className='navbar-nav'>
-							<li className='nav-item'>
-								<Link className='nav-link' to={'/balance'}>
+							<li className='nav-item'  onClick={() => handleItemClick('balance')}>
+								<Link className={selectedItem === 'balance' ? 'nav-link active' : 'nav-link'} to={'/balance'}>
 									Balance
 								</Link>
 							</li>
-							<li className='nav-item'>
-								<Link className='nav-link' to={'/faucet'}>
+							<li className='nav-item'  onClick={() => handleItemClick('faucet')}>
+								<Link className={selectedItem === 'faucet' ? 'nav-link active' : 'nav-link'} to={'/faucet'}>
 									Faucet
 								</Link>
 							</li>
-							<li className='nav-item'>
-								<Link className='nav-link' to={'/transact'}>
+							<li className='nav-item'  onClick={() => handleItemClick('transact')}>
+								<Link className={selectedItem === 'transact' ? 'nav-link active' : 'nav-link'} to={'/transact'}>
 									Transact
 								</Link>
 							</li>
-							<li className='nav-item'>
-								<Link className='nav-link' to={'/networkExplorer'}>
+							<li className='nav-item'  onClick={() => handleItemClick('networkExplorer')}>
+								<Link className={selectedItem === 'networkExplorer' ? 'nav-link active' : 'nav-link'} to={'/networkExplorer'}>
 									Explorer
 								</Link>
 							</li>
-							<li className='nav-item'>
-								<Link className='nav-link' to={'/networkManagement'}>
+							<li className='nav-item'  onClick={() => handleItemClick('networkManagement')}>
+								<Link className={selectedItem === 'networkManagement' ? 'nav-link active' : 'nav-link'}  to={'/networkManagement'}>
 									Network Manager
 								</Link>
 							</li>
