@@ -7,21 +7,21 @@ services:
       file: ./services/redis.yml
       service: redis_db
     networks:
-    - proyecto-eth-cc-groupo-1_chainnet
+    - project-eth-cc-group-1_chainnet
 
   db-init:
     extends:
       file: ./services/db.yml
       service: db-init
     networks:
-    - proyecto-eth-cc-groupo-1_chainnet
+    - project-eth-cc-group-1_chainnet
     
   db:
     extends:
       file: ./services/db.yml
       service: db
     networks:
-        - proyecto-eth-cc-groupo-1_chainnet
+        - project-eth-cc-group-1_chainnet
   backend:
     depends_on:
       - db
@@ -35,21 +35,21 @@ services:
         ETHEREUM_JSONRPC_VARIANT: 'geth'
         BLOCK_TRANSFORMER: 'clique'
     networks:
-    - proyecto-eth-cc-groupo-1_chainnet
+    - project-eth-cc-group-1_chainnet
 
   visualizer:
     extends:
       file: ./services/visualizer.yml
       service: visualizer
     networks:
-    - proyecto-eth-cc-groupo-1_chainnet
+    - project-eth-cc-group-1_chainnet
 
   sig-provider:
     extends:
       file: ./services/sig-provider.yml
       service: sig-provider
     networks:
-    - proyecto-eth-cc-groupo-1_chainnet
+    - project-eth-cc-group-1_chainnet
 
   frontend:
     depends_on:
@@ -58,14 +58,14 @@ services:
       file: ./services/frontend.yml
       service: frontend
     networks:
-    - proyecto-eth-cc-groupo-1_chainnet
+    - project-eth-cc-group-1_chainnet
 
   stats-db-init:
     extends:
       file: ./services/stats.yml
       service: stats-db-init
     networks:
-    - proyecto-eth-cc-groupo-1_chainnet
+    - project-eth-cc-group-1_chainnet
 
   stats-db:
     depends_on:
@@ -74,7 +74,7 @@ services:
       file: ./services/stats.yml
       service: stats-db
     networks:
-    - proyecto-eth-cc-groupo-1_chainnet
+    - project-eth-cc-group-1_chainnet
 
   stats:
     depends_on:
@@ -83,7 +83,7 @@ services:
       file: ./services/stats.yml
       service: stats
     networks:
-    - proyecto-eth-cc-groupo-1_chainnet
+    - project-eth-cc-group-1_chainnet
 
   proxy:
     depends_on:
@@ -94,8 +94,8 @@ services:
       file: ./services/nginx.yml
       service: proxy
     networks:
-    - proyecto-eth-cc-groupo-1_chainnet
+    - project-eth-cc-group-1_chainnet
 
 networks:
-  proyecto-eth-cc-groupo-1_chainnet:
+  project-eth-cc-group-1_chainnet:
     external: true

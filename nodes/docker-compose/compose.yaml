@@ -1,4 +1,4 @@
-name: "proyecto-eth-cc-groupo-1"
+name: "project-eth-cc-group-1"
 services:
   bootnode:
     image: ethereum/client-go:alltools-latest
