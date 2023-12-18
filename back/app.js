@@ -3,6 +3,8 @@ const express = require("express");
 const fs = require("fs");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const { exec } = require('child_process');
+const Table = require('cli-table3');
 require("dotenv").config();
 const KEYSTORE = process.env.KEYSTORE;
 const PASSWORD = process.env.PASSWORD;
@@ -137,6 +139,65 @@ app.post("/faucet", async (req, res) => {
   respuesta.type = respuesta.type.toString();
   res.send(respuesta);
 });
+
+//Get Node list
+app.get("/nodeList/", async (req, res) => {
+
+  try {
+    console.log(`Getting node list from network`);
+
+    //---------------------------------------
+    exec('docker ps --filter "name=project-eth-cc-group-1*"', (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Error al ejecutar el comando: ${error.message}`);
+        return;
+      }
+      
+      if (stderr) {
+        console.error(`Error en la salida estándar: ${stderr}`);
+        return;
+      }
+    
+      // El resultado está en stdout
+    
+      console.log(`Resultado del comando:\n${stdout}`);
+
+      // Construir la tabla HTML a partir de stdout
+      const tablaHTML = construirTablaHTML(stdout);
+
+      //res.send(`Node list:${stdout}`);
+      // Enviar la tabla formateada como respuesta HTTP
+      res.send(tablaHTML);
+      
+    });
+  //---------------------------------------
+
+   
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ error });
+  }
+});
+
+
+function construirTablaHTML(stdout) {
+  // Supongamos que stdout contiene líneas con datos separados por espacios
+  const lineas = stdout.trim().split('\n');
+  
+  // Construir la tabla HTML
+  let tablaHTML = '<table border="1">';
+  //tablaHTML += '<tr><th>Container ID</th><th>IMAGE</th><th>COMMAND</th><th>CREATED</th><th>STATUS</th><th>PORTS</th><th>NAME</th></tr>';
+
+  lineas.forEach((linea) => {
+    const [containerId, image, command, created, status, ports, name] = linea.split(/\s{2,}/); // Ajusta según el formato de tus datos
+    tablaHTML += `<tr><td>${containerId}</td><td>${image}</td><td>${command}</td><td>${created}</td><td>${status}</td><td>${ports}</td><td>${name}</td></tr>`;
+  });
+
+  tablaHTML += '</table>';
+
+  return tablaHTML;
+}
 
 //--------------------------------------------Run server--------------------------------------------
 app.listen(3333);
