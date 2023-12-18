@@ -1,8 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
 function NetworkExplorer() {
-	const [data, setData] = useState(null);
-
+	
 	useEffect(() => {
 		const getWelcome = async () => {
 			try {
@@ -17,10 +16,14 @@ function NetworkExplorer() {
 	}, []);
 
 	return (
-		<div className='vh-100 overflow-auto'>
+		<div className='vh-100 '>
 			<div className='bg-white text-black text-center py-4 '>
-				<h4>Explore Blocks and Transactions from Private Ethereum Network</h4>
-				<h5>--Under construction--</h5>
+				<iframe
+					title="Explore Blocks and Transactions from Private Ethereum Network"
+					src="http:/192.168.1.47/"
+					width="100%"
+					height="600px"
+				/>
 			</div>
 		</div>
 	);

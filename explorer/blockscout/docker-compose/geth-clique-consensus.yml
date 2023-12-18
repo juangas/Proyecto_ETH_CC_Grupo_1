@@ -1,3 +1,4 @@
+name: "blockscout-explorer"
 version: '3.9'
 
 services:

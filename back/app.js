@@ -8,7 +8,7 @@ const KEYSTORE = process.env.KEYSTORE;
 const PASSWORD = process.env.PASSWORD;
 
 //Provider
-const provider = "http://localhost:8580";
+const provider = "http://localhost:8545";
 const web3 = new Web3(new Web3.providers.HttpProvider(provider));
 
 //wallet
