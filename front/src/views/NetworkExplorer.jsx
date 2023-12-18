@@ -19,8 +19,8 @@ function NetworkExplorer() {
 		<div className='vh-100 '>
 			<div className='bg-white text-black text-center py-4 '>
 				<iframe
-					title="Explore Blocks and Transactions from Private Ethereum Network"
-					src="http:/192.168.1.47/"
+					src="http://localhost/"
+					title="Title"
 					width="100%"
 					height="600px"
 				/>

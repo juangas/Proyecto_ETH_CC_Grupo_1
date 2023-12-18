@@ -14,6 +14,7 @@ defmodule BlockScoutWeb.Router do
     plug(:fetch_session)
     plug(:fetch_flash)
     plug(:protect_from_forgery)
+    plug(:allow_iframe_embedding)
     plug(BlockScoutWeb.CSPHeader)
   end
 
