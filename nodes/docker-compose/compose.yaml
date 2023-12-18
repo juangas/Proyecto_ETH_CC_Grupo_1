@@ -10,11 +10,12 @@ services:
       - 8545:8545
     command:
       - -c
-      - /scripts/create_directories_nodes.sh -b 1 -v 2 -n 2 -p 30305 -i 172.26.0.100 && /scripts/execute_bootnode.sh -h 8545 -i 172.26.0.100
+      # - /scripts/create_directories_nodes.sh -b 1 -v 2 -n 2 -p 30305 -i 172.26.0.100 && /scripts/execute_bootnode.sh -h 8545 -i 172.26.0.100
+      - /scripts/create_directories_nodes.sh -b 1 -v 2 -n 2 -p 30305 -i bootnode && /scripts/execute_bootnode.sh -h 8545 -i bootnode
       
     networks:
       chainnet:
-        ipv4_address: 172.26.0.100
+        # ipv4_address: 172.26.0.100
 
   node_validator_1:
     image: ethereum/client-go
@@ -27,7 +28,7 @@ services:
       - /scripts/execute_validator_node.sh -p 8545
     networks:
       chainnet:
-        ipv4_address: 172.26.0.101
+        # ipv4_address: 172.26.0.101
   
   node_validator_2:
     image: ethereum/client-go
@@ -40,7 +41,7 @@ services:
       - /scripts/execute_validator_node.sh -p 8545
     networks:
       chainnet:
-        ipv4_address: 172.26.0.102
+        # ipv4_address: 172.26.0.102
 
   node_2:
     image: ethereum/client-go
@@ -53,7 +54,7 @@ services:
       - /scripts/execute_normal_node.sh -p 8545
     networks:
       chainnet:
-        ipv4_address: 172.26.0.103
+        # ipv4_address: 172.26.0.103
 
   node_3:
     image: ethereum/client-go
@@ -66,7 +67,7 @@ services:
       - /scripts/execute_normal_node.sh -p 8545
     networks:
       chainnet:
-        ipv4_address: 172.26.0.104
+        # ipv4_address: 172.26.0.104
 
 networks:
   chainnet:

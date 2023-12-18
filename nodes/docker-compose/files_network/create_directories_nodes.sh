@@ -58,10 +58,14 @@ fi
 apk update
 apk add jq
 
+
+IP=$(nslookup $BOOT_IP | awk '/Address: / {print $2}' )
+echo "The IP of the bootnode is $IP"
 # mkdir -p /root/.ethereum/node_1
 bootnode -genkey /root/boot.key &
 sleep 1
-bootnode -nodekey /root/boot.key -addr $BOOT_IP:$BOOT_PORT | head -n 1 > /scripts/bootnode &
+# bootnode -nodekey /root/boot.key -addr $BOOT_IP:$BOOT_PORT | head -n 1 > /scripts/bootnode &
+bootnode -nodekey /root/boot.key -addr $IP:$BOOT_PORT | head -n 1 > /scripts/bootnode &
 sleep 1
 
 # Create the genesis json with the wallets of the validators
