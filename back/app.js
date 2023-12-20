@@ -237,5 +237,18 @@ app.get("/deleteNode/:containerName", async (req, res) => {
 
 });
 
+app.get("/stopNetwork", (req, res) => {
+  console.log("Stoping Network!!");
+  res.send("Stoping Network!!");
+  //TODO
+});
+
+app.get("/startNetwork", (req, res) => {
+  console.log("Starting Network!!");
+  res.send("Starting Network!!");
+  //TODO
+});
+
+
 //--------------------------------------------Run server--------------------------------------------
 app.listen(3333);
