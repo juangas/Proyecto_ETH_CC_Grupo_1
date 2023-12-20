@@ -3,11 +3,13 @@ import axios from 'axios';
 
 function NetworkManagement() {
 	const [nodeList, setNodeList] = useState('');
-	const [containerName, setContainerName] = useState('');
+	// const [containerName, setContainerName] = useState('');
+	const [containerNameCreate, setContainerNameCreate] = useState('');
+	const [containerNameDelete, setContainerNameDelete] = useState('');
 
 	useEffect(() => {
 		// Invocar la ruta de Node.js al cargar el componente
-		fetch('http://localhost:3333/nodeList/')
+		fetch('http://192.168.56.104:3335/nodeList')
 			.then(response => response.text())
 			.then(data => setNodeList(data))
 			.catch(error => console.error('Error al obtener datos:', error));
@@ -15,27 +17,13 @@ function NetworkManagement() {
 
 	const handleDelete = async () => {
 
-		console.log(`Front-Eliminando Contenedor ${containerName}`);
+		console.log(`Front-Eliminando Contenedor ${containerNameDelete}`);
 
-		const body = {
-			containerName: containerName
-		};
 
 		try {
 		  // Realiza una solicitud al servidor para eliminar el contenedor Docker
-		  const response = await fetch(`http://localhost:3333/nodeList`, {
-			body: JSON.stringify(body),
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		  });
-	
-		  if (response.ok) {
-			console.log(`Front-Contenedor ${containerName} eliminado exitosamente.`);
-		  } else {
-			console.error(`Front-Error al eliminar el contenedor ${containerName}:response.ko`);
-		  }
+		  const response = await axios.delete(`http://192.168.56.104:3335/stop_node/${containerNameDelete}`);
+		  console.log(response)
 		} catch (error) {
 		  console.error('Front-Error de red:', error);
 		}
@@ -43,8 +31,16 @@ function NetworkManagement() {
 
 	const handleCreate = async () => {
 
-		console.log(`Front-Crear Contenedor `);
-		//TODO
+		console.log(`Front-Crear Contenedor ${containerNameCreate}`);
+
+
+		try {
+		  // Realiza una solicitud al servidor para eliminar el contenedor Docker
+		  const response = await axios.put(`http://192.168.56.104:3335/add_node/${containerNameCreate}`);
+		  console.log(response)
+		} catch (error) {
+		  console.error('Front-Error de red:', error);
+		}
 
 	};
 
@@ -53,8 +49,8 @@ function NetworkManagement() {
 		console.log(`Stop network `);
 
 		try {
-			const route = `http://localhost:3333/stopNetwork`;
-			const response = await axios.get(route);
+			const route = `http://192.168.56.104:3335/stop_network/private_network_1`;
+			const response = await axios.delete(route);
 			console.log(response);
 
 		} catch (error) {
@@ -67,14 +63,22 @@ function NetworkManagement() {
 
 		console.log(`Start network `);
 		try {
-			const route = `http://localhost:3333/startNetwork`;
-			const response = await axios.get(route);
+			const route = `http://192.168.56.104:3335/start_network`;
+			const data = {
+				network_name: "private_network_1",
+				validator_nodes: "3",
+				normal_nodes: "2",
+				host_http_port: "8545"
+			}
+			const headers = {
+				'Content-Type': 'application/json'
+			}
+			const response = await axios.put(route, data, headers);
 			console.log(response);
 
 		} catch (error) {
 			console.error(error);
 		}
-
 	};
 
 	return (
@@ -105,8 +109,8 @@ function NetworkManagement() {
 				Container name:
 				<input
 					type="text"
-					value={containerName}
-					onChange={(e) => setContainerName(e.target.value)}
+					value={containerNameDelete}
+					onChange={(e) => setContainerNameDelete(e.target.value)}
 				/>
 				</label>
 				<button type="button" onClick={handleDelete}>
@@ -119,8 +123,8 @@ function NetworkManagement() {
 				Container name:
 				<input
 					type="text"
-					value={containerName}
-					onChange={(e) => setContainerName(e.target.value)}
+					value={containerNameCreate}
+					onChange={(e) => setContainerNameCreate(e.target.value)}
 				/>
 				</label>
 				<button type="button" onClick={handleCreate}>

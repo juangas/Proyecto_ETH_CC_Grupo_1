@@ -1,27 +1,31 @@
-const { Web3, ChainMismatchError } = require("web3");
+const { Web3 } = require("web3");
 const express = require("express");
 const fs = require("fs");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const { exec } = require("child_process");
 const Table = require("cli-table3");
+
 require("dotenv").config();
 const KEYSTORE = process.env.KEYSTORE;
 const PASSWORD = process.env.PASSWORD;
 
+
+
 //Provider
-const provider = "http://localhost:8545";
+const provider = "http://192.168.56.104:8545";
 const web3 = new Web3(new Web3.providers.HttpProvider(provider));
 
 //wallet
 const jsonWallet = JSON.parse(
-  fs.readFileSync(`../nodes/docker-compose/files_network/keystore/${KEYSTORE}`)
+  fs.readFileSync(`${__dirname}/keystore/${KEYSTORE}`)
 );
 //console.log(jsonWallet)
 
 //-------------------------------------------Server instance--------------------------------------------
 const app = express();
 
+app.use(cors())
 //---------------------------------------------Middlewares--------------------------------------------
 //app.use(...)
 app.use(cors());
@@ -147,7 +151,7 @@ app.get("/nodeList/", async (req, res) => {
 
     //---------------------------------------
     exec(
-      'docker ps --filter "name=project-eth-cc-group-1*"',
+      'sudo docker ps',
       (error, stdout, stderr) => {
         if (error) {
           console.error(`Error al ejecutar el comando: ${error.message}`);
@@ -178,8 +182,6 @@ app.get("/nodeList/", async (req, res) => {
   }
 });
 
-
-
 function construirTablaHTML(stdout) {
   // Supongamos que stdout contiene líneas con datos separados por espacios
   const lineas = stdout.trim().split("\n");
@@ -200,55 +202,6 @@ function construirTablaHTML(stdout) {
 
   return tablaHTML;
 }
-
-
-//Get details for specific block
-app.get("/deleteNode/:containerName", async (req, res) => {
-
-  const { containerName } = req.params;
-  console.log(`Back-Deleting container: ${containerName}`);
-
-  try{
-    // Ejecutar el comando Docker para eliminar el contenedor
-    exec(
-      `docker rm -f ${containerName}`,
-      (error, stdout, stderr) => {
-        if (error) {
-          console.log(`Back-Error al eliminar el contenedor ${containerName}`);
-          res.send(`Error al eliminar el contenedor: ${containerName}`);
-        }
-
-        if (stderr) {
-          console.log(`Back-stderr al eliminar el contenedor ${containerName}`);
-          res.send(`stderr al eliminar el contenedor: ${containerName}`);
-        }
-
-        else{
-          console.log(`Back-Contenedor ${containerName} eliminado exitosamente`);
-          res.send(`Contenedor ${containerName} eliminado exitosamente.`);
-        }
-      }
-    );
-  }
-  catch(error){
-    console.log(`Back-Exception al eliminar el contenedor ${containerName}-Error:${error}`);
-    res.send(`Back- Failed deleting Container: ${containerName}`);
-  }
-
-});
-
-app.get("/stopNetwork", (req, res) => {
-  console.log("Stoping Network!!");
-  res.send("Stoping Network!!");
-  //TODO
-});
-
-app.get("/startNetwork", (req, res) => {
-  console.log("Starting Network!!");
-  res.send("Starting Network!!");
-  //TODO
-});
-
 
 //--------------------------------------------Run server--------------------------------------------
 app.listen(3333);

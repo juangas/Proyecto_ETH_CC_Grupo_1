@@ -1,12 +1,12 @@
 bootnode:
     image: ethereum/client-go:alltools-latest
-    volumes: 
+    volumes:
       - ./private_network:/root/.ethereum
       - ./files_network:/scripts
     entrypoint: bin/sh
+    ports:
+      - 8545:8545
     command:
       - -c
-      - /scripts/crear_directorios.sh -n 3 -p 30305 -i 172.25.0.100
-    networks:
-      chainnet: 
-        ipv4_address: 172.25.0.100
+      - /scripts/create_directories_nodes.sh -b 1 -v 2 -n 2 -p 30305 && /scripts/execute_bootnode.sh -h 8545
+    

@@ -1,0 +1,82 @@
+services:  
+  redis_db:
+    extends:
+      file: ./explorer/services/redis.yml
+      service: redis_db
+    
+
+  db-init:
+    extends:
+      file: ./explorer/services/db.yml
+      service: db-init
+    
+    
+  db:
+    extends:
+      file: ./explorer/services/db.yml
+      service: db
+    
+  backend:
+    depends_on:
+      - db
+      - redis_db
+    extends:
+      file: ./explorer/services/backend.yml
+      service: backend
+    links:
+      - db:database
+    environment:
+        ETHEREUM_JSONRPC_VARIANT: 'geth'
+        BLOCK_TRANSFORMER: 'clique'
+    
+
+  visualizer:
+    extends:
+      file: ./explorer/services/visualizer.yml
+      service: visualizer
+    
+
+  sig-provider:
+    extends:
+      file: ./explorer/services/sig-provider.yml
+      service: sig-provider
+    
+
+  frontend:
+    depends_on:
+      - backend
+    extends:
+      file: ./explorer/services/frontend.yml
+      service: frontend
+    
+
+  stats-db-init:
+    extends:
+      file: ./explorer/services/stats.yml
+      service: stats-db-init
+    
+
+  stats-db:
+    depends_on:
+      - backend
+    extends:
+      file: ./explorer/services/stats.yml
+      service: stats-db
+    
+
+  stats:
+    depends_on:
+      - stats-db
+    extends:
+      file: ./explorer/services/stats.yml
+      service: stats
+    
+
+  proxy:
+    depends_on:
+      - backend
+      - frontend
+      - stats
+    extends:
+      file: ./explorer/services/nginx.yml
+      service: proxy

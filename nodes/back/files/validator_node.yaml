@@ -1,14 +1,9 @@
 validator:
     image: ethereum/client-go
-    volumes: 
-      - ./private_network/node_1:/root/.ethereum
+    volumes:
+      - ./private_network/validator_node_1:/root/.ethereum
       - ./files_network:/scripts
-    ports:
-      - 8545:8545
     entrypoint: bin/sh
     command:
       - -c
-      - /scripts/ejecutar_nodo_validador.sh -p 8545
-    networks:
-      chainnet: 
-        ipv4_address: 172.25.0.101
+      - /scripts/execute_validator_node.sh -p 8545
