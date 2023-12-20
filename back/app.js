@@ -10,10 +10,8 @@ require("dotenv").config();
 const KEYSTORE = process.env.KEYSTORE;
 const PASSWORD = process.env.PASSWORD;
 
-
-
 //Provider
-const provider = "http://192.168.56.104:8545";
+const provider = "http://localhost:8545";
 const web3 = new Web3(new Web3.providers.HttpProvider(provider));
 
 //wallet
@@ -25,7 +23,7 @@ const jsonWallet = JSON.parse(
 //-------------------------------------------Server instance--------------------------------------------
 const app = express();
 
-app.use(cors())
+app.use(cors());
 //---------------------------------------------Middlewares--------------------------------------------
 //app.use(...)
 app.use(cors());
@@ -150,31 +148,28 @@ app.get("/nodeList/", async (req, res) => {
     console.log(`Getting node list from network`);
 
     //---------------------------------------
-    exec(
-      'sudo docker ps',
-      (error, stdout, stderr) => {
-        if (error) {
-          console.error(`Error al ejecutar el comando: ${error.message}`);
-          return;
-        }
-
-        if (stderr) {
-          console.error(`Error en la salida estándar: ${stderr}`);
-          return;
-        }
-
-        // El resultado está en stdout
-
-        console.log(`Resultado del comando:\n${stdout}`);
-
-        // Construir la tabla HTML a partir de stdout
-        const tablaHTML = construirTablaHTML(stdout);
-
-        //res.send(`Node list:${stdout}`);
-        // Enviar la tabla formateada como respuesta HTTP
-        res.send(tablaHTML);
+    exec("sudo docker ps", (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Error al ejecutar el comando: ${error.message}`);
+        return;
       }
-    );
+
+      if (stderr) {
+        console.error(`Error en la salida estándar: ${stderr}`);
+        return;
+      }
+
+      // El resultado está en stdout
+
+      console.log(`Resultado del comando:\n${stdout}`);
+
+      // Construir la tabla HTML a partir de stdout
+      const tablaHTML = construirTablaHTML(stdout);
+
+      //res.send(`Node list:${stdout}`);
+      // Enviar la tabla formateada como respuesta HTTP
+      res.send(tablaHTML);
+    });
     //---------------------------------------
   } catch (error) {
     console.log(error);
