@@ -1,0 +1,22 @@
+name: "project-eth-cc-group-1"
+services:
+ 
+  normal-node:
+    image: ethereum/client-go
+    volumes:
+      - ./private_network/normal_node_1:/root/.ethereum
+      - ./files_network:/scripts
+    entrypoint: bin/sh
+    command:
+      - -c
+      - /scripts/execute_normal_node.sh -p 8545
+    networks:
+      chainnet:
+        # ipv4_address: 172.26.0.103
+
+networks:
+  chainnet:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.26.0.0/24
