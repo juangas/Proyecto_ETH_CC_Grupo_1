@@ -1,22 +1,15 @@
 name: "project-eth-cc-group-1"
 services:
  
-  normal-node:
+  new_normal-node:
     image: ethereum/client-go
-    volumes:
-      - ./private_network/normal_node_1:/root/.ethereum
-      - ./files_network:/scripts
-    entrypoint: bin/sh
-    command:
-      - -c
-      - /scripts/execute_normal_node.sh -p 8545
+    container_name: ${CONTAINER_NAME}
+    environment:
+    - BOOTNODE_URL=enode://08fffaf5f52d91bac3a1f6b9ab380953e9e836f50c12b1a58d9d1539030dc226612708dd1c9689353d7b159926dbd496b9c3425639ab5c5c9e8a91af9f221ea4@172.26.0.11:0?discport=30305
     networks:
-      chainnet:
-        # ipv4_address: 172.26.0.103
+    - project-eth-cc-group-1_chainnet
 
 networks:
-  chainnet:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.26.0.0/24
+  project-eth-cc-group-1_chainnet:
+    external: true
+
