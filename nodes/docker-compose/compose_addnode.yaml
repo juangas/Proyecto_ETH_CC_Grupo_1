@@ -3,7 +3,6 @@ services:
  
   new_normal-node:
     image: ethereum/client-go
-    container_name: ${CONTAINER_NAME}
     environment:
     - BOOTNODE_URL=enode://08fffaf5f52d91bac3a1f6b9ab380953e9e836f50c12b1a58d9d1539030dc226612708dd1c9689353d7b159926dbd496b9c3425639ab5c5c9e8a91af9f221ea4@172.26.0.11:0?discport=30305
     networks:
